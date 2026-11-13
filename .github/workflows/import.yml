@@ -1,0 +1,52 @@
+name: Import from Wix
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Re-import projects that already exist (overwrites edits made in the CMS)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: import
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: import/package-lock.json
+      - name: Install
+        working-directory: import
+        run: npm ci --no-audit --no-fund
+      - name: Import projects, photos and videos
+        working-directory: import
+        env:
+          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+          SANITY_DATASET: production
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
+        run: node import.mjs ${{ inputs.force && '--force' || '' }}
+      - name: Save report and large videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: import-results
+          path: import/out/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Publish the site
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --repo ${{ github.repository }}

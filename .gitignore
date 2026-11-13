@@ -1,0 +1,9 @@
+node_modules/
+.next/
+web/out/
+studio/dist/
+web/public/_fx/
+import/out/
+.env*
+.DS_Store
+studio/.sanity/

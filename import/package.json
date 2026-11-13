@@ -1,0 +1,13 @@
+{
+  "name": "mrw-import",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dry": "node import.mjs --dry",
+    "import": "node import.mjs"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.16.0",
+    "csv-parse": "^6.1.0"
+  }
+}
