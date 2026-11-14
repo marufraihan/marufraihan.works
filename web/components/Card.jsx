@@ -2,7 +2,7 @@ import Img from './Img'
 import {discLabel} from '@/lib/data'
 
 export default function Card({p, ratio = 4 / 3, className = '', sizes, showClient = true}) {
-  const meta = [(p.disciplines || []).map(discLabel).join(', '), p.year].filter(Boolean).join(', ')
+  const meta = (p.categories || []).join(', ') || (p.disciplines || []).map(discLabel).join(', ')
   return (
     <a className={`card ${className}`} href={`/work/${p.slug}/`}>
       <div className="ph" style={{aspectRatio: ratio}}>

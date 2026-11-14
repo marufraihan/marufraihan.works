@@ -10,6 +10,7 @@ const DISC = [
   ['film', 'Film'],
 ]
 const label = (d) => (DISC.find(([v]) => v === d) || [d, d])[1]
+const kind = (p) => (p.categories || []).join(', ') || (p.disciplines || []).map(label).join(', ')
 
 export default function WorkIndex({projects}) {
   const [disc, setDisc] = useState('all')
@@ -59,7 +60,6 @@ export default function WorkIndex({projects}) {
           {DISC.filter(([v]) => v === 'all' || counts[v] > 0).map(([v, l]) => (
             <button key={v} type="button" className={`tlink ${disc === v ? 'on' : ''}`} aria-pressed={disc === v} onClick={() => choose(v)}>
               {l}
-              <span className="count">{counts[v]}</span>
             </button>
           ))}
         </div>
@@ -79,7 +79,6 @@ export default function WorkIndex({projects}) {
           {cats.map(([c, n]) => (
             <button key={c} type="button" className={`tlink ${cat === c ? 'on' : ''}`} aria-pressed={cat === c} onClick={() => choose(disc, c)}>
               {c}
-              <span className="count">{n}</span>
             </button>
           ))}
         </div>
@@ -94,7 +93,7 @@ export default function WorkIndex({projects}) {
               </div>
               <div className="cap">
                 <b>{p.title}</b>
-                <span className="small muted">{[(p.disciplines || []).map(label).join(', '), p.year].filter(Boolean).join(', ')}</span>
+                <span className="small muted">{kind(p)}</span>
               </div>
               {p.client && (
                 <span className="muted client" style={{fontSize: 15, marginTop: -6}}>
@@ -108,10 +107,9 @@ export default function WorkIndex({projects}) {
         <div className="list">
           {list.map((p) => (
             <a key={p._id} className="row" href={`/work/${p.slug}/`}>
-              <span className="small muted">{p.year}</span>
               <b>{p.title}</b>
               <span className="c3 muted">{p.client}</span>
-              <span className="c4 small muted">{(p.disciplines || []).map(label).join(', ')}</span>
+              <span className="c4 small muted">{kind(p)}</span>
               <span className="th">
                 <Img image={p.cover} ratio={3 / 2} sizes="120px" alt="" />
               </span>
