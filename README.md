@@ -37,7 +37,7 @@ Tips:
    Permission: **Account → Cloudflare Pages → Edit**. Create and copy the token.
 
 ### 3. GitHub (this repository → Settings → Secrets and variables → Actions)
-- **Variables** tab → New variable: `SANITY_PROJECT_ID` = `wgudx0eu`
+- Optional: **Variables** tab → `SANITY_PROJECT_ID` (defaults to `wgudx0eu`)
 - **Secrets** tab → New secret, three times:
   - `SANITY_WRITE_TOKEN` (from Sanity)
   - `CLOUDFLARE_API_TOKEN` (from Cloudflare)

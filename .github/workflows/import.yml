@@ -33,7 +33,7 @@ jobs:
       - name: Import projects, photos and videos
         working-directory: import
         env:
-          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID || 'wgudx0eu' }}
           SANITY_DATASET: production
           SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
         run: node import.mjs ${{ inputs.force && '--force' || '' }}
