@@ -77,7 +77,7 @@ export default defineType({
       options: {list: DISCIPLINES, layout: 'grid'},
       validation: (r) => r.required().min(1),
     }),
-    defineField({name: 'categories', type: 'array', title: 'Categories', description: 'Optional tags, like the old photography sections.', group: 'details', of: [{type: 'string'}], options: {list: CATEGORIES, layout: 'tags'}}),
+    defineField({name: 'categories', type: 'array', title: 'Categories', description: 'Sub-categories shown as filters under each discipline on the Work page, e.g. Residences, Projection mapping, Music videos. Pick from the list or type your own.', group: 'details', of: [{type: 'string'}], options: {list: CATEGORIES, layout: 'tags'}}),
     defineField({name: 'client', type: 'string', title: 'Client / architect', group: 'details'}),
     defineField({name: 'location', type: 'string', title: 'Location', group: 'details'}),
     defineField({name: 'year', type: 'string', title: 'Year', description: 'Year completed or photographed, e.g. 2023.', group: 'details'}),

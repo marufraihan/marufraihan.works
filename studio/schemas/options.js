@@ -4,19 +4,31 @@ export const DISCIPLINES = [
   {title: 'Experiential', value: 'experiential'},
   {title: 'Film', value: 'film'},
 ]
+
+// Suggestions for the Categories field. Any other word can be typed in too.
 export const CATEGORIES = [
+  // Architecture
+  'Residential',
+  'Interior',
+  'Commercial',
+  // Photography
   'Residences',
   'Commercial & Retail',
   'Public Places',
   'Institutes',
   'Restaurants & Resorts',
   'Special Projects',
-  'Interior',
+  // Experiential
   'Projection mapping',
   'LED & laser',
-  'Immersive',
+  'Immersive rooms',
   'Interactive',
-  'Music video',
-  'Corporate film',
-  'Event',
+  'Exhibitions',
+  'Experiments',
+  // Film
+  'Music videos',
+  'Architectural films',
+  'Corporate & industrial',
+  'Commercials',
+  'Events',
 ]
