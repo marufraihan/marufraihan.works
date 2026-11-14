@@ -7,3 +7,4 @@ import/out/
 .env*
 .DS_Store
 studio/.sanity/
+studio/dist
