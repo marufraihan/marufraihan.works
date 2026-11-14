@@ -10,17 +10,17 @@ function Media({row, dark}) {
   const sizesFull = '100vw'
   switch (row.kind) {
     case 'loop':
-      return <div className="full"><Video src={row.items[0].url} label={row.items[0].caption} /></div>
+      return <div className="full fade"><Video src={row.items[0].url} label={row.items[0].caption} /></div>
     case 'drawings':
       return (
-        <figure>
+        <figure className="fade">
           <div className="drawings">{row.items.map((m) => <Img key={m._key} image={m} contain sizes="(max-width: 820px) 100vw, 45vw" />)}</div>
           {row.items.some((m) => m.caption) && <figcaption className="small muted">{row.items.map((m) => m.caption).filter(Boolean).join(' · ')}</figcaption>}
         </figure>
       )
     case 'pair':
       return (
-        <div className="pair">
+        <div className="pair fade">
           {row.items.map((m) => (
             <figure key={m._key}>
               <Img image={m} sizes="(max-width: 820px) 100vw, 50vw" />
@@ -35,7 +35,7 @@ function Media({row, dark}) {
     default: {
       const m = row.items[0]
       return (
-        <figure className={row.kind === 'narrow' ? 'narrow' : row.kind === 'indent' ? 'indent' : ''}>
+        <figure className={`fade ${row.kind === 'narrow' ? 'narrow' : row.kind === 'indent' ? 'indent' : ''}`}>
           <Img image={m} sizes={row.kind === 'full' ? sizesFull : '80vw'} />
           {m.caption && <figcaption className="small muted">{m.caption}</figcaption>}
         </figure>
@@ -66,7 +66,7 @@ export default function ProjectView({p, all = [], settings = {}}) {
   const credits = (
     <>
       {(p.credits?.length > 0 || p.links?.length > 0) && (
-        <div className="credits">
+        <div className="credits fade">
           {(p.credits || []).map((c) => (
             <div key={c._key}>
               <span className="small muted">{c.role}</span>
@@ -116,7 +116,7 @@ export default function ProjectView({p, all = [], settings = {}}) {
               </div>
             </div>
           </div>
-          <div className="wrap blocks">
+          <div className="wrap blocks fade">
             {p.story?.length > 0 && (
               <div>
                 <h2>Context</h2>
@@ -172,7 +172,7 @@ export default function ProjectView({p, all = [], settings = {}}) {
           </div>
         </div>
         <div className="full hero-img">{p.heroVideo?.url ? <Video src={p.heroVideo.url} poster={posterUrl} label={p.title} /> : <Img image={p.cover || p.media?.[0]} eager />}</div>
-        <div className="wrap story">
+        <div className="wrap story fade">
           <dl className="facts">
             {facts.map(([k, v]) => (
               <div key={k} style={{display: 'contents'}}>

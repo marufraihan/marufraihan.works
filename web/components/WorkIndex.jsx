@@ -85,7 +85,7 @@ export default function WorkIndex({projects}) {
       )}
       {list.length === 0 && <p className="empty-note">No projects here yet.</p>}
       {view === 'grid' ? (
-        <div className="grid">
+        <div className="grid stagger" key={`g-${disc}-${cat}`}>
           {list.map((p) => (
             <a key={p._id} className="card" href={`/work/${p.slug}/`}>
               <div className="ph">
@@ -104,7 +104,7 @@ export default function WorkIndex({projects}) {
           ))}
         </div>
       ) : (
-        <div className="list">
+        <div className="list stagger" key={`l-${disc}-${cat}`}>
           {list.map((p) => (
             <a key={p._id} className="row" href={`/work/${p.slug}/`}>
               <b>{p.title}</b>
