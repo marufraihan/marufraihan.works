@@ -51,6 +51,6 @@ jobs:
           # Check the Cloudflare keys first and explain any problem
           v=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/user/tokens/verify)
           a=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects")
-          echo "$a" | grep -q '"success":true' || { echo "::error title=Cloudflare::Token check: $(echo "$v" | tr -d '\n' | cut -c1-200) | Pages access failed for account ID '${CLOUDFLARE_ACCOUNT_ID:0:4}…' (length ${#CLOUDFLARE_ACCOUNT_ID}): $(echo "$a" | tr -d '\n' | cut -c1-300)"; exit 1; }
+          echo "$a" | grep -qE '"success": ?true' || { echo "::error title=Cloudflare::Token check: $(echo "$v" | tr -d '\n' | cut -c1-200) | Pages access failed for account ID '${CLOUDFLARE_ACCOUNT_ID:0:4}…' (length ${#CLOUDFLARE_ACCOUNT_ID}): $(echo "$a" | tr -d '\n' | cut -c1-300)"; exit 1; }
           npx --yes wrangler@4 pages project create marufraihan-works --production-branch=main 2>/dev/null || true
           npx --yes wrangler@4 pages deploy web/out --project-name=marufraihan-works --branch=main --commit-dirty=true 2>&1 | tee /tmp/wr.log; test ${PIPESTATUS[0]} -eq 0 || { echo "::error title=Wrangler::$(grep -iE 'error|✘' /tmp/wr.log | head -3 | tr '\n' ' ' | cut -c1-400)"; exit 1; }
