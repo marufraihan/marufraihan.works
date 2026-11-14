@@ -25,16 +25,16 @@ async function q(query, params = {}) {
 }
 
 export async function getSettings() {
-  if (FIXTURE) return fixture().settings
+  if (FIXTURE) return fixture().settings || {}
   return (await q(`*[_id == "settings"][0]`)) || {}
 }
 export async function getHome() {
-  if (FIXTURE) return fixture().home
+  if (FIXTURE) return fixture().home || {}
   return (await q(`*[_id == "home"][0]{..., "reel": reel${FILE}, "reelMobile": reelMobile${FILE}, "servicesVideo": servicesVideo${FILE}, poster${IMG}, servicesImage${IMG}}`)) || {}
 }
 export async function getStudio() {
-  if (FIXTURE) return fixture().studio
-  return (await q(`{"page": *[_id == "studioPage"][0]{..., portrait${IMG}}, "team": *[_type == "member" && !(_id in path("drafts.**"))] | order(order asc){..., photo${IMG}}}`)) || {}
+  const r = FIXTURE ? fixture().studio : await q(`{"page": *[_id == "studioPage"][0]{..., portrait${IMG}}, "team": *[_type == "member" && !(_id in path("drafts.**"))] | order(order asc){..., photo${IMG}}}`)
+  return {page: r?.page || {}, team: r?.team || []}
 }
 export async function getProjects() {
   if (FIXTURE) return fixture().projects
