@@ -93,8 +93,8 @@ export default defineType({
       of: [defineArrayMember({type: 'object', name: 'credit', fields: [defineField({name: 'role', type: 'string', title: 'Role'}), defineField({name: 'name', type: 'string', title: 'Name'})], preview: {select: {title: 'name', subtitle: 'role'}}})],
     }),
     defineField({name: 'featured', type: 'boolean', title: 'Show on homepage', description: 'Adds this project to Selected work.', initialValue: false, group: 'details'}),
-    defineField({name: 'featuredOrder', type: 'number', title: 'Homepage position', description: '1 shows first.', group: 'details', hidden: ({document}) => !document?.featured}),
-    defineField({name: 'sortDate', type: 'date', title: 'Sort date', description: 'Controls the order in the Work index (newest first). Filled automatically from the year if empty.', group: 'details'}),
+    defineField({name: 'featuredOrder', type: 'number', title: 'Homepage position', description: 'Orders this project among others of the same discipline on the homepage. The homepage then mixes the disciplines: 3 photography, 1 experiential, 1 architecture, 1 film, repeating.', group: 'details', hidden: ({document}) => !document?.featured}),
+    defineField({name: 'sortDate', type: 'date', title: 'Sort date', description: 'Controls the order inside each discipline on the Work page (newest first). Filled automatically from the year if empty.', group: 'details'}),
 
     defineField({name: 'slug', type: 'slug', title: 'Page address', description: 'marufraihan.works/work/…', group: 'links', options: {source: 'title', maxLength: 96}, validation: (r) => r.required()}),
     defineField({name: 'oldUrls', type: 'array', title: 'Old Wix addresses', description: 'Anyone opening these old links is sent to this page. Paste the part after marufraihan.works, e.g. /architectural-project/hawladar-bari', group: 'links', of: [{type: 'string'}]}),

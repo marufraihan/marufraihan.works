@@ -1,6 +1,7 @@
 'use client'
 import {useEffect, useMemo, useState} from 'react'
 import Img from './Img'
+import {interleave} from '@/lib/order'
 
 const DISC = [
   ['all', 'All'],
@@ -51,7 +52,9 @@ export default function WorkIndex({projects}) {
     inDisc.forEach((p) => (p.categories || []).forEach((c) => m.set(c, (m.get(c) || 0) + 1)))
     return [...m.entries()].sort((a, b) => b[1] - a[1])
   }, [disc, projects]) // eslint-disable-line
-  const list = inDisc.filter((p) => !cat || (p.categories || []).includes(cat))
+  const filtered = inDisc.filter((p) => !cat || (p.categories || []).includes(cat))
+  // The All tab mixes the disciplines; a single discipline stays newest-first.
+  const list = useMemo(() => (disc === 'all' && !cat ? interleave(filtered) : filtered), [disc, cat, projects]) // eslint-disable-line
 
   return (
     <>

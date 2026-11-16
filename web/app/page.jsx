@@ -5,6 +5,7 @@ import Card from '@/components/Card'
 import {getHome, getProjects, getPosts, getSettings, DISCIPLINES} from '@/lib/data'
 import {imgUrl} from '@/lib/img'
 import {fmtDate} from '@/lib/format'
+import {interleave} from '@/lib/order'
 
 const LAYOUT = [
   ['s8', 3 / 2, ''],
@@ -17,7 +18,7 @@ const LAYOUT = [
 
 export default async function Home() {
   const [home, projects, posts, settings] = await Promise.all([getHome(), getProjects(), getPosts(), getSettings()])
-  const featured = projects.filter((p) => p.featured).sort((a, b) => (a.featuredOrder ?? 99) - (b.featuredOrder ?? 99)).slice(0, 12)
+  const featured = interleave(projects.filter((p) => p.featured).sort((a, b) => (a.featuredOrder ?? 999) - (b.featuredOrder ?? 999))).slice(0, 12)
   const poster = home.poster ? imgUrl(home.poster, 1600) : undefined
   return (
     <>

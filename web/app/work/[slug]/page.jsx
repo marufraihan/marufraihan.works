@@ -2,6 +2,7 @@ import {notFound} from 'next/navigation'
 import ProjectView from '@/components/ProjectView'
 import {getProject, getProjectSlugs, getProjects, getSettings, discLabel} from '@/lib/data'
 import {imgUrl} from '@/lib/img'
+import {interleave} from '@/lib/order'
 
 export const dynamicParams = false
 export async function generateStaticParams() {
@@ -19,7 +20,8 @@ export async function generateMetadata({params}) {
 
 export default async function ProjectPage({params}) {
   const {slug} = await params
-  const [p, all, settings] = await Promise.all([getProject(slug), getProjects(), getSettings()])
+  const [p, allProjects, settings] = await Promise.all([getProject(slug), getProjects(), getSettings()])
+  const all = interleave(allProjects) // same order as the Work page, so Next project follows it
   if (!p) notFound()
   return <ProjectView p={p} all={all} settings={settings} />
 }
