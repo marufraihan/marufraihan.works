@@ -62,8 +62,7 @@ for (const p of data.projects || []) for (const u of p.oldUrls || []) add(u, `/w
 for (const r of data.extra || []) if (r.from && r.to) add(r.from, r.to)
 for (const [f, t] of PAGES) add(f, t)
 const dynamic = FALLBACKS.map(([f, t]) => `${f} ${t} 302`)
-// Sanity auth callback lands on /?sanityAuthToken=... — redirect to /admin/ so the SPA picks it up
-const studio = ['/admin /admin/ 301', '/admin/* /admin/index.html 200', '/?sanityAuthToken=:token /admin/?sanityAuthToken=:token 302']
+const studio = ['/admin /admin/ 301', '/admin/* /admin/index.html 200']
 fs.writeFileSync(path.join(OUT, '_redirects'), [...lines.slice(0, 1900), ...studio, ...dynamic].join('\n') + '\n')
 if (lines.length > 1900) console.warn(`! ${lines.length} redirects; only 1900 written (Cloudflare limit).`)
 
