@@ -1,1 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 30 435 295"><rect x="60" y="30" width="435" height="295" fill="#131313"/><g fill="none" stroke="#E4E4E0" stroke-width="22" stroke-linecap="round"><path d="M92 230 V143 H157 V58 H268"/><path d="M222 132 A71 71 0 1 1 322 232"/><path d="M367 180 H437"/><path d="M455 128 V215 H392 V297 H282"/></g><circle cx="437" cy="282" r="26" fill="#E4E4E0"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 30 435 295">
+  <!-- Light mode: white mark on dark background -->
+  <style>
+    @media (prefers-color-scheme: light) {
+      .bg  { fill: #131313 }
+      .mk  { stroke: #E4E4E0 }
+      .dot { fill: #E4E4E0 }
+    }
+    @media (prefers-color-scheme: dark) {
+      .bg  { fill: #E4E4E0 }
+      .mk  { stroke: #131313 }
+      .dot { fill: #131313 }
+    }
+  </style>
+  <rect class="bg" x="60" y="30" width="435" height="295"/>
+  <g class="mk" fill="none" stroke-width="22" stroke-linecap="round">
+    <path d="M92 230 V143 H157 V58 H268"/>
+    <path d="M222 132 A71 71 0 1 1 322 232"/>
+    <path d="M367 180 H437"/>
+    <path d="M455 128 V215 H392 V297 H282"/>
+  </g>
+  <circle class="dot" cx="437" cy="282" r="26"/>
+</svg>

@@ -10,9 +10,9 @@ export async function generateMetadata() {
   const s = await getSettings()
   return {
     metadataBase: new URL(SITE),
-    title: {default: 'Maruf Raihan Works', template: '%s · Maruf Raihan Works'},
+    title: {default: 'MarufRaihan.Works', template: '%s · MarufRaihan.Works'},
     description: s.seoDescription || 'Architecture, architectural photography and experiential design from Dhaka.',
-    openGraph: {siteName: 'Maruf Raihan Works', type: 'website'},
+    openGraph: {siteName: 'MarufRaihan.Works', type: 'website'},
     icons: {icon: '/favicon.svg'},
   }
 }
