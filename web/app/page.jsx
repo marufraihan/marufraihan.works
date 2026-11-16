@@ -74,10 +74,10 @@ export default async function Home() {
 
         <div className="dark" style={{marginTop: 'clamp(80px,10vw,160px)'}}>
           <div className="wrap band">
-            <div className="sq fade">{home.servicesVideo?.url ? <Video src={home.servicesVideo.url} poster={home.servicesImage ? imgUrl(home.servicesImage, 900) : undefined} label="Experiential work" /> : <Img image={home.servicesImage} ratio={1} />}</div>
+            <div className="sq fade">{home.servicesVideo?.url ? <Video src={home.servicesVideo.url} poster={home.servicesImage ? imgUrl(home.servicesImage, 900) : undefined} label="Studio work" /> : <Img image={home.servicesImage} ratio={1} />}</div>
             <div className="fade">
               <div className="small muted" style={{marginBottom: 18}}>
-                Experiential design
+                {home.servicesLabel || 'Services'}
               </div>
               <h3>{home.servicesTitle}</h3>
               {home.servicesText && (
@@ -89,14 +89,23 @@ export default async function Home() {
                 <ul>
                   {home.services.map((s) => (
                     <li key={s._key}>
-                      <span>{s.name}</span>
-                      <span className="muted">{s.note}</span>
+                      {s.link ? (
+                        <a className="svc" href={s.link}>
+                          <span>{s.name} <span aria-hidden="true">→</span></span>
+                          <span className="muted">{s.note}</span>
+                        </a>
+                      ) : (
+                        <>
+                          <span>{s.name}</span>
+                          <span className="muted">{s.note}</span>
+                        </>
+                      )}
                     </li>
                   ))}
                 </ul>
               )}
               <a className="btn" href="/studio/#contact">
-                Start a project →
+                {home.servicesButton || 'Start a project'} →
               </a>
             </div>
           </div>

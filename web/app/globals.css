@@ -84,6 +84,9 @@ nav.main a:hover::after,nav.main a.cur::after{transform:scaleX(1)}
 .band h3{margin:0 0 22px;font-weight:400;font-size:clamp(34px,4.2vw,64px);line-height:1;letter-spacing:-.025em}
 .band ul{list-style:none;margin:28px 0 36px;padding:0;border-top:1px solid var(--night-line)}
 .band li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--night-line);font-size:16px}
+.band .svc{display:flex;justify-content:space-between;gap:16px;width:100%}
+.band .svc>span:first-child{transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.band .svc:hover>span:first-child{transform:translateX(6px)}
 .band .sq{aspect-ratio:1/1;overflow:hidden;background:var(--night-2)}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;background:var(--ink);color:var(--paper);font:inherit;font-size:15px;min-height:44px;border:0;cursor:pointer}
 .dark .btn{background:var(--night-ink);color:var(--night)}
@@ -233,7 +236,7 @@ main{animation:appear .6s ease both}
   .sel{row-gap:40px}
   .cap{flex-direction:column;gap:4px}
   .band{padding-block:64px;gap:32px}
-  .band li{flex-direction:column;gap:2px}
+  .band li,.band .svc{flex-direction:column;gap:2px}
   .jr{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin-inline:calc(var(--pad)*-1);padding-inline:var(--pad);scrollbar-width:none}
   .jr::-webkit-scrollbar,.filters::-webkit-scrollbar{display:none}
   .jr article{flex:0 0 78%;scroll-snap-align:start}
