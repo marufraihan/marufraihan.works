@@ -38,6 +38,11 @@ async function patchBoth(id, fn) {
   return ids.length
 }
 
+process.on('unhandledRejection', (e) => {
+  console.log(`::error title=Content update::${String(e?.message || e).slice(0, 400)}`)
+  process.exit(1)
+})
+
 const hb = await client.fetch('*[_type == "project" && slug.current == "hawladar-bari"][0]._id')
 const pressLinks = ARTICLES.map(([publication, title, year, url]) => ({_type: 'article', _key: key(publication), publication, title, ...(year ? {year} : {}), url, ...(hb ? {project: {_type: 'reference', _ref: hb}} : {})}))
 await client.createIfNotExists({_id: 'studioPage', _type: 'studioPage'})
@@ -52,7 +57,7 @@ if (hb) {
   console.log('Hawladar Bari: press links set')
 }
 
-const maxOrder = (await client.fetch('max(*[_type == "member"].order)')) || 8
+const maxOrder = (await client.fetch('math::max(*[_type == "member"].order)')) || 8
 let next = maxOrder
 for (const [file, name, role] of TEAM) {
   const asset = await client.assets.upload('image', fs.readFileSync(path.join(HERE, 'updates', 'team', file)), {filename: file})
