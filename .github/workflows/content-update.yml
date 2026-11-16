@@ -1,0 +1,32 @@
+name: Content update
+
+on:
+  push:
+    branches: [main]
+    paths: ['import/updates/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - working-directory: import
+        run: npm ci --no-audit --no-fund
+      - name: Update content in the CMS
+        env:
+          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID || 'wgudx0eu' }}
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
+        run: cp import/updates/update.mjs import/_update.mjs && node import/_update.mjs
+      - name: Publish the site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --repo ${{ github.repository }}

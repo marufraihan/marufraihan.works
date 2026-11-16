@@ -171,7 +171,7 @@ figcaption{margin-top:8px}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;padding-block:56px;border-top:1px solid var(--line)}
 .cols h2{margin:0 0 18px;font-weight:400;font-size:15px}
 .tl{list-style:none;margin:0 0 36px;padding:0}
-.tl li{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+.tl li{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
 .team{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:28px}
 .team .ph{aspect-ratio:4/5;overflow:hidden;margin-bottom:12px;background:var(--paper-2)}
 .team b{font-weight:400;display:block}

@@ -78,7 +78,27 @@ export const studioPage = defineType({
       title: 'Education',
       of: [defineArrayMember({type: 'object', name: 'entry', fields: [defineField({name: 'years', type: 'string', title: 'Years'}), defineField({name: 'text', type: 'string', title: 'Degree and school'})], preview: {select: {title: 'text', subtitle: 'years'}}})],
     }),
-    defineField({name: 'press', type: 'array', title: 'Featured in', of: [{type: 'string'}]}),
+    defineField({
+      name: 'pressLinks',
+      type: 'array',
+      title: 'Featured in (articles)',
+      description: 'Articles about the studio or its projects. Shown with links on the Studio page.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'article',
+          fields: [
+            defineField({name: 'publication', type: 'string', title: 'Publication', validation: (r) => r.required()}),
+            defineField({name: 'title', type: 'string', title: 'Article title'}),
+            defineField({name: 'year', type: 'string', title: 'Year'}),
+            defineField({name: 'url', type: 'url', title: 'Link'}),
+            defineField({name: 'project', type: 'reference', title: 'Project', to: [{type: 'project'}]}),
+          ],
+          preview: {select: {title: 'title', subtitle: 'publication'}, prepare: ({title, subtitle}) => ({title: title || subtitle, subtitle: title ? subtitle : ''})},
+        }),
+      ],
+    }),
+    defineField({name: 'press', type: 'array', title: 'Featured in (names only)', description: 'Publications to list without a link.', of: [{type: 'string'}]}),
   ],
   preview: {prepare: () => ({title: 'Studio page'})},
 })

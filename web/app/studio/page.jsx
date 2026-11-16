@@ -55,12 +55,31 @@ export default async function Studio() {
                     </ul>
                   </>
                 )}
-                {page.press?.length > 0 && (
-                  <>
-                    <h2>Featured in</h2>
-                    <p style={{margin: 0, fontSize: 15}}>{page.press.join(', ')}</p>
-                  </>
+                {(page.pressLinks?.length > 0 || page.press?.length > 0) && <h2>Featured in</h2>}
+                {page.pressLinks?.length > 0 && (
+                  <ul className="tl">
+                    {page.pressLinks.map((a) => (
+                      <li key={a._key}>
+                        <span className="small muted">{a.publication}</span>
+                        <span>
+                          {a.url ? (
+                            <a href={a.url} rel="noopener" target="_blank" style={{textDecoration: 'underline', textUnderlineOffset: 3, textDecorationThickness: 1}}>
+                              {a.title || a.publication}
+                            </a>
+                          ) : (
+                            a.title || a.publication
+                          )}
+                          {a.year ? <span className="muted">, {a.year}</span> : null}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
+                {(() => {
+                  const linked = new Set((page.pressLinks || []).map((a) => (a.publication || '').toLowerCase()))
+                  const rest = (page.press || []).filter((n) => !linked.has(n.toLowerCase()))
+                  return rest.length > 0 ? <p style={{margin: 0, fontSize: 15}}>{(page.pressLinks?.length ? 'Also: ' : '') + rest.join(', ')}</p> : null
+                })()}
               </div>
             </div>
           </div>
