@@ -1,6 +1,7 @@
 'use client'
-import {useEffect, useMemo, useState} from 'react'
+import {useEffect, useMemo, useRef, useState} from 'react'
 import Img from './Img'
+import {imgUrl} from '@/lib/img'
 import {interleave} from '@/lib/order'
 
 const DISC = [
@@ -17,6 +18,9 @@ export default function WorkIndex({projects}) {
   const [disc, setDisc] = useState('all')
   const [cat, setCat] = useState('')
   const [view, setView] = useState('grid')
+  const peekBox = useRef(null)
+  const peekImg = useRef(null)
+  const pk = useRef({x: 0, y: 0, cx: 0, cy: 0, raf: 0, on: false, fine: false})
 
   useEffect(() => {
     const u = new URL(window.location.href)
@@ -28,7 +32,63 @@ export default function WorkIndex({projects}) {
       const v = localStorage.getItem('work-view')
       if (v === 'list' || v === 'grid') setView(v)
     } catch {}
+    pk.current.fine = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 761px)').matches
+    const hide = () => peekBox.current && (peekBox.current.classList.remove('on'), (pk.current.on = false))
+    window.addEventListener('mrw:open', hide) // the project overlay took over
+    return () => {
+      window.removeEventListener('mrw:open', hide)
+      cancelAnimationFrame(pk.current.raf)
+    }
   }, [])
+
+  // List view: a larger picture follows the cursor over each row (mouse and trackpad only).
+  function place() {
+    const s = pk.current
+    const el = peekBox.current
+    if (!el) return
+    s.cx += (s.x - s.cx) * 0.2
+    s.cy += (s.y - s.cy) * 0.2
+    const w = el.offsetWidth
+    const h = el.offsetHeight
+    let x = s.cx + 28
+    if (x + w > window.innerWidth - 12) x = s.cx - w - 28
+    const y = Math.min(window.innerHeight - h - 12, Math.max(12, s.cy - h / 2))
+    el.style.transform = `translate3d(${Math.round(x)}px,${Math.round(y)}px,0)`
+    s.raf = Math.abs(s.x - s.cx) > 0.5 || Math.abs(s.y - s.cy) > 0.5 ? requestAnimationFrame(place) : 0
+  }
+  function peekMove(e) {
+    const s = pk.current
+    if (!s.fine) return
+    s.x = e.clientX
+    s.y = e.clientY
+    if (!s.raf) s.raf = requestAnimationFrame(place)
+  }
+  function peekOn(p, e) {
+    const s = pk.current
+    const box = peekBox.current
+    const img = peekImg.current
+    if (!s.fine || !box || !img) return
+    if (!p.cover) return peekOff()
+    s.x = e.clientX
+    s.y = e.clientY
+    if (!s.on) {
+      s.cx = s.x
+      s.cy = s.y
+      s.on = true
+      place()
+    } else if (!s.raf) s.raf = requestAnimationFrame(place)
+    const url = imgUrl(p.cover, 640, 480)
+    if (img.getAttribute('src') !== url) {
+      img.classList.remove('ok')
+      img.src = url
+    }
+    box.classList.add('on')
+  }
+  function peekOff() {
+    const s = pk.current
+    s.on = false
+    if (peekBox.current) peekBox.current.classList.remove('on')
+  }
 
   function choose(d, c = '') {
     setDisc(d)
@@ -107,9 +167,9 @@ export default function WorkIndex({projects}) {
           ))}
         </div>
       ) : (
-        <div className="list stagger" key={`l-${disc}-${cat}`}>
+        <div className="list stagger" key={`l-${disc}-${cat}`} onMouseMove={peekMove} onMouseLeave={peekOff}>
           {list.map((p) => (
-            <a key={p._id} className="row" href={`/work/${p.slug}/`}>
+            <a key={p._id} className="row" href={`/work/${p.slug}/`} onMouseEnter={(e) => peekOn(p, e)}>
               <b>{p.title}</b>
               <span className="c3 muted">{p.client}</span>
               <span className="c4 small muted">{kind(p)}</span>
@@ -118,6 +178,11 @@ export default function WorkIndex({projects}) {
               </span>
             </a>
           ))}
+        </div>
+      )}
+      {view === 'list' && (
+        <div className="peek" ref={peekBox} aria-hidden="true">
+          <img ref={peekImg} alt="" onLoad={(e) => e.currentTarget.classList.add('ok')} />
         </div>
       )}
     </>

@@ -2,6 +2,8 @@ import './globals.css'
 import Footer from '@/components/Footer'
 import Fade from '@/components/Fade'
 import VisualEditing from '@/components/VisualEditing'
+import Lightbox from '@/components/Lightbox'
+import ProjectOverlay from '@/components/ProjectOverlay'
 import {getSettings} from '@/lib/data'
 
 export const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://marufraihan.works'
@@ -26,6 +28,8 @@ export default async function RootLayout({children}) {
         {children}
         <Footer settings={settings} />
         <Fade />
+        <ProjectOverlay />
+        <Lightbox />
         <VisualEditing />
       </body>
     </html>
