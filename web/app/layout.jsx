@@ -15,7 +15,7 @@ export async function generateMetadata() {
     title: {default: 'MarufRaihan.Works', template: '%s · MarufRaihan.Works'},
     description: s.seoDescription || 'Architecture, architectural photography and experiential design from Dhaka.',
     openGraph: {siteName: 'MarufRaihan.Works', type: 'website'},
-    icons: {icon: '/favicon.svg'},
+    icons: {icon: [{url: '/favicon.svg?v=2', type: 'image/svg+xml'}], apple: '/apple-touch-icon.png'},
   }
 }
 
