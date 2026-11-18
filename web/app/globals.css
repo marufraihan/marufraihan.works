@@ -99,7 +99,7 @@ nav.main a:hover::after,nav.main a.cur::after{transform:scaleX(1)}
 
 /* footer */
 footer.site{padding:clamp(64px,8vw,120px) var(--pad) 40px}
-footer .big{font-size:clamp(28px,7vw,112px);line-height:.95;letter-spacing:-.035em;display:inline-block;border-bottom:1px solid var(--night-line);padding-bottom:10px;overflow-wrap:anywhere;max-width:100%;margin-top:16px}
+footer .big{font-size:clamp(22px,3.8vw,56px);line-height:1;letter-spacing:-.03em;display:inline-block;border-bottom:1px solid var(--night-line);padding-bottom:10px;overflow-wrap:anywhere;max-width:100%;margin-top:16px}
 footer .big:hover{border-color:var(--night-ink)}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-top:72px;padding-top:28px;border-top:1px solid var(--night-line);font-size:15px}
 .fgrid p{margin:6px 0 0}
